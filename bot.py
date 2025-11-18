@@ -38,10 +38,12 @@ def create_button(message):
     url = match.group(1)
     button_text = match.group(2)
     post_text = match.group(3)
-
-    if message.chat.type != "channel":
-        bot.reply_to(message, "❗ Команду можно использовать только в канале, где бот является администратором.")
+    chat_admins = bot.get_chat_administrators(message.chat.id)
+    
+    if not any(admin.user.id == bot.user.id for admin in chat_admins):
+        bot.reply_to(message, "❗ Бот должен быть администратором канала.")
         return
+
 
     markup = telebot.types.InlineKeyboardMarkup()
     markup.add(telebot.types.InlineKeyboardButton(button_text, url=url))
@@ -71,3 +73,4 @@ while True:
         bot.infinity_polling()
     except Exception as e:
         bot.send_message(ADMIN_CHAT_ID, f"Server down ⛔ Error:\n{e}")
+
