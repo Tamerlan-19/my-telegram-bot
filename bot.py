@@ -24,14 +24,14 @@ def admin_error_handler(func):
 @bot.message_handler(commands=['createbutton'])
 @admin_error_handler
 def create_button(message):
-    pattern = r'/createbutton\s+(\S+)\s+"(.+)"\s+"(.+)"'
+    pattern = r'/createbutton\s+(\S+)\s+(.+)\s+(.+)'
     match = re.match(pattern, message.text)
 
     if not match:
         bot.reply_to(
             message,
             '❗ Использование:\n'
-            '/createbutton URL "Текст кнопки" "Текст сообщения"'
+            '/createbutton URL Текст кнопки Текст сообщения'
         )
         return
 
@@ -41,7 +41,7 @@ def create_button(message):
     chat_admins = bot.get_chat_administrators(message.chat.id)
     
     if not any(admin.user.id == bot.user.id for admin in chat_admins):
-        bot.reply_to(message, "❗ Бот должен быть администратором канала.")
+        bot.reply_to(message, "❗ Бот должен быть администратором чата.")
         return
 
 
@@ -54,7 +54,7 @@ def create_button(message):
 @bot.message_handler(commands=['checkstatus'])
 @admin_error_handler
 def check_status(message):
-    bot.reply_to(message, "Bot version: 0.0.4")
+    bot.reply_to(message, "Bot version: 0.0.5")
 
 # ====== Отправка сообщения при старте ======
 def notify_startup():
@@ -73,5 +73,6 @@ while True:
         bot.infinity_polling()
     except Exception as e:
         bot.send_message(ADMIN_CHAT_ID, f"Server down ⛔ Error:\n{e}")
+
 
 
