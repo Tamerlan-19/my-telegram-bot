@@ -54,7 +54,7 @@ def create_button(message):
 @bot.message_handler(commands=['checkstatus'])
 @admin_error_handler
 def check_status(message):
-    bot.reply_to(message, "Works well ✅")
+    bot.reply_to(message, "Bot version: 0.0.4")
 
 # ====== Отправка сообщения при старте ======
 def notify_startup():
@@ -73,4 +73,5 @@ while True:
         bot.infinity_polling()
     except Exception as e:
         bot.send_message(ADMIN_CHAT_ID, f"Server down ⛔ Error:\n{e}")
+
 
